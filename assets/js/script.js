@@ -34,4 +34,41 @@ function createWeekdayCalander(times) {
     noteEl.classList.add('col-8', 'form-control');
     noteEl.rows = '3';
     listEl.appendChild(noteEl);
+
+    const btnEl = document.createElement("button");
+    btnEl.classList.add('me-md-3', 'btn', 'btn-primary', 'saveBtn');
+    btnEl.type = 'button';
+    btnEl.textContent = 'Save';
+    
+    const btnContainer = document.createElement("div");
+    btnContainer.classList.add('d-grid', 'gap-2', 'd-md-flex', 'justify-content-md-end');
+    listEl.appendChild(btnContainer);
+    btnContainer.appendChild(btnEl);
+
+    const containerEl = document.getElementById("contentMain");
+    containerEl.appendChild(listEl);
+    noteEl.value = retreiveSaves();
+    btnEl.onclick = (handleSave);
+
+    function retreiveSaves() {
+        if (!localStorage.getItem('taskList')) {
+            const newUserArray = [];
+            for (i=0; i <dayLength; i++) {
+                newUserArray.push('');
+            }
+            localStorage.setItem('taskList', JSON.stringify(newUserArray));
+        }
+        const saveArray = JSON.parse(localStorage.getItem('taskList'));
+        while (saveArray.length < dayLength) {
+            saveArray.push('');
+        }
+        const noteContent = saveArray[timecount];
+        return noteContent;
+    }
+
+    handleColor()
+
+    function handleColor() {
+        
+    }
 }
