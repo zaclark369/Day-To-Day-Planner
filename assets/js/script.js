@@ -62,13 +62,43 @@ function createWeekdayCalander(times) {
         while (saveArray.length < dayLength) {
             saveArray.push('');
         }
-        const noteContent = saveArray[timecount];
+        const noteContent = saveArray[timeCount];
         return noteContent;
     }
 
-    handleColor()
+    function handleSave() {
+        const saveEl = document.getElementsByTagName('textarea');
+        const savesArray = [];
+        for (let i = 0; i < saveEl.length; i++) {
+            savesArray[i] = saveEl[i].value;
+        }
+        localStorage.setItem('taskList', json.stringify(savesArray));
+        }
 
-    function handleColor() {
-        
+    createColor()
+
+    function createColor() {
+        const currentTime = moment(moment(), 'hh:mm');
+        const calendarTime = moment(time, 'hh:mm');
+        if (calendarTime.isBefore(currentTime)) {
+            memoEl.classList.add('past');
+          }
+          if (calendarTime.isAfter(currentTime)) {
+            memoEl.classList.add('future');
+          }
+          if (calendarTime.isSame(currentTime, 'hour')) {
+            memoEl.classList.add('present');
+          }
+        }
+
+        timeCount++;
+        createWeekdayCalander(times);
     }
-}
+
+    createWeekdayCalander(workHours);
+
+    const clearButtonEl = document.getElementById('clear-button');
+    clearButtonEl.addEventListener('click', () => {
+        localStorage.clear();
+        location.reload();
+    });
